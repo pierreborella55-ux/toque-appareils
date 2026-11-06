@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Mes recettes - Toque & Appareils</title>
+<link rel="stylesheet" href="style.css">
+
+<!-- AJOUT PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2d4a3e">
+<!-- FIN AJOUT -->
+
+</head>
+<body>
+
+<div class="conteneur">
+  <img src="fond_crop.png" class="fond-behind" alt="Ambiance cuisine">
+
+  <div class="contenu">
+    <h1>⭐ Mes recettes</h1>
+
+    <div class="bloc-filtre">
+      <input type="text" id="rechercheInterne" placeholder="Rechercher dans mes recettes...">
+      <select id="filtreAppareil">
+        <option value="Tous">Tous les appareils</option>
+        <option value="🥘 Monsieur Cuisine">🥘 Monsieur Cuisine</option>
+        <option value="⏲️ Cookéo">⏲️ Cookéo</option>
+        <option value="🌀 Air Fryer">🌀 Air Fryer</option>
+        <option value="🔥 Four">🔥 Four</option>
+        <option value="🍲 Casserole">🍲 Casserole</option>
+      </select>
+    </div>
+
+    <div id="listeRecettes"></div>
+
+    <a href="index.html" class="lien-mes-recettes">← Retour à la recherche</a>
+  </div>
+</div>
+
+<script src="storage.js"></script>
+<script src="recettes.js"></script>
+
+<!-- AJOUT PWA : enregistrement du Service Worker -->
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js').then((reg) => {
+    reg.onupdatefound = () => {
+      const newWorker = reg.installing;
+      newWorker.onstatechange = () => {
+        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+          if (confirm("Une nouvelle version est disponible. Mettre à jour maintenant ?")) {
+            newWorker.postMessage("SKIP_WAITING");
+            window.location.reload();
+          }
+        }
+      };
+    };
+  });
+}
+</script>
+<!-- FIN AJOUT -->
+
+</body>
+</html>
