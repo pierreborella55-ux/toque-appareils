@@ -65,6 +65,24 @@ function remplirSelectAppareilSauvegarde() {
 afficherIconesAppareils();
 remplirSelectAppareilSauvegarde();
 
+// ===== AJOUT : Badge du nombre de recettes sur le bouton "Mes recettes" =====
+function afficherBadgeRecettes() {
+  const badge = document.getElementById("badgeRecettes");
+  if (!badge) return;
+
+  const nombre = getRecettes().length;
+
+  if (nombre > 0) {
+    badge.textContent = nombre;
+    badge.style.display = "flex";
+  } else {
+    badge.style.display = "none";
+  }
+}
+
+afficherBadgeRecettes();
+// ===== FIN AJOUT =====
+
 // ===== AJOUT : Récupération automatique d'un partage (Web Share Target) =====
 function extraireUrlDepuisTexte(texte) {
   if (!texte) return "";
@@ -150,6 +168,10 @@ if (formSauvegarde) {
     const message = document.getElementById("messageSauvegarde");
     message.textContent = "✅ Recette enregistrée !";
     setTimeout(() => { message.textContent = ""; }, 2500);
+
+    // ===== AJOUT : met à jour le badge après l'ajout =====
+    afficherBadgeRecettes();
+    // ===== FIN AJOUT =====
   });
 }
 
