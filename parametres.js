@@ -69,6 +69,24 @@ function afficherListeAppareils() {
 
     const estPersonnalise = appareil.id.startsWith("custom_");
 
+    // ===== AJOUT : galerie de vignettes (jusqu'à 3 photos personnalisées) =====
+    let vignettesHTML = "";
+    if (appareil.photos && appareil.photos.length > 0) {
+      vignettesHTML = '<div class="ligne-vignettes-photos">';
+      appareil.photos.forEach((p, index) => {
+        const estActive = p === appareil.photo;
+        vignettesHTML += `
+          <div class="vignette-photo-appareil ${estActive ? "vignette-active" : ""}" data-index="${index}">
+            <img src="${p}" class="vignette-img">
+            ${estActive ? '<span class="vignette-coche">✅</span>' : ""}
+            <button class="btn-supprimer-vignette" type="button" data-index="${index}">🗑️</button>
+          </div>
+        `;
+      });
+      vignettesHTML += '</div>';
+    }
+    // ===== FIN AJOUT =====
+
     carte.innerHTML = `
       <div class="ligne-appareil">
         <div class="icone-appareil-zone">${iconeHTML}</div>
@@ -78,6 +96,7 @@ function afficherListeAppareils() {
           <span class="slider-actif"></span>
         </label>
       </div>
+      ${vignettesHTML}
       <div class="ligne-appareil-actions">
         <label class="btn-photo-mini">
           📷 Photo
@@ -100,11 +119,12 @@ function afficherListeAppareils() {
       mettreAJourAppareil(appareil.id, { actif: e.target.checked });
     });
 
+    // ===== MODIFIÉ : ajoute la photo à la galerie (max 3) au lieu de l'écraser directement =====
     carte.querySelector(".input-photo-camera").addEventListener("change", (e) => {
       const fichier = e.target.files[0];
       if (!fichier) return;
       redimensionnerImage(fichier, 150, (base64) => {
-        mettreAJourAppareil(appareil.id, { photo: base64 });
+        ajouterPhotoAppareil(appareil.id, base64);
         afficherListeAppareils();
       });
     });
@@ -113,21 +133,46 @@ function afficherListeAppareils() {
       const fichier = e.target.files[0];
       if (!fichier) return;
       redimensionnerImage(fichier, 150, (base64) => {
-        mettreAJourAppareil(appareil.id, { photo: base64 });
+        ajouterPhotoAppareil(appareil.id, base64);
+        afficherListeAppareils();
+      });
+    });
+    // ===== FIN MODIFIÉ =====
+
+    // ===== AJOUT : clic sur une vignette = la rend active =====
+    carte.querySelectorAll(".vignette-photo-appareil").forEach(vignette => {
+      vignette.addEventListener("click", (e) => {
+        if (e.target.closest(".btn-supprimer-vignette")) return;
+        const index = parseInt(vignette.getAttribute("data-index"), 10);
+        const photo = appareil.photos[index];
+        definirPhotoActiveAppareil(appareil.id, photo);
         afficherListeAppareils();
       });
     });
 
-    // ===== AJOUT : Réinitialiser l'icône par défaut =====
+    carte.querySelectorAll(".btn-supprimer-vignette").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const index = parseInt(btn.getAttribute("data-index"), 10);
+        const photo = appareil.photos[index];
+        if (confirm("Supprimer cette photo ?")) {
+          supprimerPhotoHistoriqueAppareil(appareil.id, photo);
+          afficherListeAppareils();
+        }
+      });
+    });
+    // ===== FIN AJOUT =====
+
+    // ===== MODIFIÉ : réinitialiser vide aussi la galerie de photos =====
     const btnReset = carte.querySelector(".btn-reset-icone");
     if (btnReset) {
       btnReset.addEventListener("click", () => {
         const iconeDefaut = estPersonnalise ? "🍴" : getIconeParDefaut(appareil.id);
-        mettreAJourAppareil(appareil.id, { photo: null, icone: iconeDefaut });
+        mettreAJourAppareil(appareil.id, { photo: null, icone: iconeDefaut, photos: [] });
         afficherListeAppareils();
       });
     }
-    // ===== FIN AJOUT =====
+    // ===== FIN MODIFIÉ =====
 
     const btnSupprimer = carte.querySelector(".btn-supprimer-appareil");
     if (btnSupprimer) {
