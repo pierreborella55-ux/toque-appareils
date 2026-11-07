@@ -81,11 +81,11 @@ function importerRecettes(fichier, callback) {
 
 // ===== GESTION DES APPAREILS =====
 const APPAREILS_PAR_DEFAUT = [
-  { id: "monsieur_cuisine", nom: "Monsieur Cuisine", icone: "🥘", photo: null, actif: true },
-  { id: "cookeo",           nom: "Cookéo",           icone: "⏲️", photo: null, actif: true },
-  { id: "air_fryer",        nom: "Air Fryer",        icone: "🌀", photo: null, actif: true },
-  { id: "four",             nom: "Four",             icone: "🔥", photo: null, actif: true },
-  { id: "casserole",        nom: "Casserole",        icone: "🍲", photo: null, actif: true }
+  { id: "monsieur_cuisine", nom: "Monsieur Cuisine", icone: "🥘", photo: null, photos: [], actif: true },
+  { id: "cookeo",           nom: "Cookéo",           icone: "⏲️", photo: null, photos: [], actif: true },
+  { id: "air_fryer",        nom: "Air Fryer",        icone: "🌀", photo: null, photos: [], actif: true },
+  { id: "four",             nom: "Four",             icone: "🔥", photo: null, photos: [], actif: true },
+  { id: "casserole",        nom: "Casserole",        icone: "🍲", photo: null, photos: [], actif: true }
 ];
 
 const MAPPING_ANCIEN_VERS_ID = {
@@ -98,11 +98,29 @@ const MAPPING_ANCIEN_VERS_ID = {
 
 function getAppareils() {
   const data = localStorage.getItem("appareils");
+  let appareils;
+
   if (!data) {
     sauvegarderAppareils(APPAREILS_PAR_DEFAUT);
-    return JSON.parse(JSON.stringify(APPAREILS_PAR_DEFAUT));
+    appareils = JSON.parse(JSON.stringify(APPAREILS_PAR_DEFAUT));
+  } else {
+    appareils = JSON.parse(data);
   }
-  return JSON.parse(data);
+
+  // ===== AJOUT : migration automatique, garantit que "photos" existe toujours =====
+  let modifie = false;
+  appareils.forEach(a => {
+    if (!a.photos) {
+      a.photos = a.photo ? [a.photo] : [];
+      modifie = true;
+    }
+  });
+  if (modifie) {
+    sauvegarderAppareils(appareils);
+  }
+  // ===== FIN AJOUT =====
+
+  return appareils;
 }
 
 function sauvegarderAppareils(appareils) {
@@ -121,6 +139,7 @@ function ajouterAppareil(nom, icone, photo) {
     nom: nom,
     icone: icone || "🍴",
     photo: photo || null,
+    photos: photo ? [photo] : [],   // ===== AJOUT =====
     actif: true
   });
   sauvegarderAppareils(appareils);
@@ -146,6 +165,48 @@ function getIconeAffichage(appareil) {
   if (appareil.photo) return appareil.photo;
   return appareil.icone;
 }
+
+// ===== AJOUT : gestion de la galerie de 3 photos max par appareil =====
+function ajouterPhotoAppareil(id, base64) {
+  const appareils = getAppareils();
+  const appareil = appareils.find(a => a.id === id);
+  if (!appareil) return;
+
+  if (!appareil.photos) appareil.photos = [];
+  appareil.photos.push(base64);
+
+  // Si on dépasse 3 photos, on écrase la plus ancienne
+  if (appareil.photos.length > 3) {
+    appareil.photos.shift();
+  }
+
+  // La nouvelle photo devient automatiquement l'icône active
+  appareil.photo = base64;
+
+  sauvegarderAppareils(appareils);
+}
+
+function definirPhotoActiveAppareil(id, base64) {
+  mettreAJourAppareil(id, { photo: base64 });
+}
+
+function supprimerPhotoHistoriqueAppareil(id, base64) {
+  const appareils = getAppareils();
+  const appareil = appareils.find(a => a.id === id);
+  if (!appareil || !appareil.photos) return;
+
+  appareil.photos = appareil.photos.filter(p => p !== base64);
+
+  // Si la photo supprimée était l'icône active, on bascule sur la plus récente restante
+  if (appareil.photo === base64) {
+    appareil.photo = appareil.photos.length > 0
+      ? appareil.photos[appareil.photos.length - 1]
+      : null;
+  }
+
+  sauvegarderAppareils(appareils);
+}
+// ===== FIN AJOUT =====
 
 // ===== Mémorisation du dernier appareil utilisé =====
 function getDernierAppareilUtilise() {
