@@ -150,7 +150,6 @@ h2 {
 .infos-recette { font-size: 13px; color: #666; margin-bottom: 8px; }
 .tag-appareil { background: #a8d8d8; padding: 3px 8px; border-radius: 8px; margin-right: 8px; color: #2b6777; font-weight: bold; }
 
-/* ===== AJOUT : taille de l'icône photo dans le tag appareil ===== */
 .tag-appareil-photo {
   width: 18px;
   height: 18px;
@@ -159,7 +158,6 @@ h2 {
   vertical-align: middle;
   margin-right: 4px;
 }
-/* ===== FIN AJOUT ===== */
 
 .actions-recette { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; font-size: 13px; }
 
@@ -173,7 +171,6 @@ h2 {
   font-size: 12px;
 }
 
-/* ===== AJOUT : bouton Notes sur carte recette ===== */
 .btn-notes {
   background: #f4a259;
   color: white;
@@ -197,7 +194,6 @@ h2 {
 .btn-notes-rempli:hover {
   background-color: #2b6777;
 }
-/* ===== FIN AJOUT ===== */
 
 .bloc-filtre {
   background: rgba(213, 236, 236, 0.55);
@@ -226,7 +222,6 @@ h2 {
   font-size: 12px;
 }
 
-/* ===== AJOUT : Export / Import ===== */
 .bloc-export-import {
   display: flex;
   flex-direction: column;
@@ -259,9 +254,7 @@ h2 {
   text-align: center;
   margin: 0;
 }
-/* ===== FIN AJOUT ===== */
 
-/* ===== AJOUT : Écran Paramètres ===== */
 .carte-appareil {
   background: rgba(244, 249, 249, 0.92);
   border-radius: 14px;
@@ -311,7 +304,6 @@ h2 {
   min-width: 0;
 }
 
-/* Interrupteur actif/inactif (switch) */
 .switch-actif {
   position: relative;
   display: inline-block;
@@ -374,7 +366,6 @@ h2 {
   white-space: nowrap;
 }
 
-/* ===== AJOUT : bouton réinitialiser icône par défaut ===== */
 .btn-reset-icone {
   background: #8d99ae;
   color: white;
@@ -390,7 +381,6 @@ h2 {
 .btn-reset-icone:hover {
   background-color: #6c7a89;
 }
-/* ===== FIN AJOUT ===== */
 
 .btn-photo-mini:hover {
   background-color: #1d4a54;
@@ -427,7 +417,6 @@ h2 {
   background: rgba(255,255,255,0.92);
 }
 
-/* ===== AJOUT : 2 boutons photo côte à côte ===== */
 .ligne-boutons-photo {
   display: flex;
   gap: 8px;
@@ -450,7 +439,6 @@ h2 {
 .btn-photo-appareil:hover {
   background-color: #1d4a54;
 }
-/* ===== FIN AJOUT ===== */
 
 #previewNouvelAppareil {
   margin-bottom: 10px;
@@ -487,9 +475,7 @@ h2 {
   margin: 8px 0 0 0;
   text-shadow: 0 1px 4px rgba(0,0,0,0.6);
 }
-/* ===== FIN AJOUT ===== */
 
-/* ===== AJOUT : roue Paramètres en haut à droite (accueil) ===== */
 .btn-roue-parametres {
   position: absolute;
   top: 14px;
@@ -511,9 +497,7 @@ h2 {
 .btn-roue-parametres:hover {
   background-color: #c97d3a;
 }
-/* ===== FIN AJOUT ===== */
 
-/* ===== AJOUT : Zone d'icônes dynamiques (page d'accueil) — grille 5 colonnes compacte ===== */
 .zone-icones {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -570,9 +554,7 @@ h2 {
   text-shadow: 0 1px 4px rgba(0,0,0,0.8);
   line-height: 1.05;
 }
-/* ===== FIN AJOUT ===== */
 
-/* ===== AJOUT : En-tête avec flèche de retour (page Paramètres / Notes) ===== */
 .entete-page {
   display: flex;
   align-items: center;
@@ -607,9 +589,7 @@ h2 {
 .entete-page h1 {
   margin: 0;
 }
-/* ===== FIN AJOUT ===== */
 
-/* ===== AJOUT : Page Notes ===== */
 .titre-recette-notes {
   background: rgba(244, 162, 89, 0.55);
   color: white;
@@ -675,9 +655,7 @@ h2 {
   margin: 8px 0 0 0;
   text-shadow: 0 1px 4px rgba(0,0,0,0.6);
 }
-/* ===== FIN AJOUT ===== */
 
-/* ===== AJOUT : Barre d'onglets (page Paramètres) ===== */
 .barre-onglets {
   display: flex;
   gap: 6px;
@@ -709,9 +687,7 @@ h2 {
 .contenu-onglet.actif {
   display: block;
 }
-/* ===== FIN AJOUT ===== */
 
-/* ===== AJOUT : Liste de courses ===== */
 .bloc-ajout-course {
   display: flex;
   gap: 8px;
@@ -826,9 +802,7 @@ h2 {
 #btnViderCourses:hover {
   background-color: #c0392b;
 }
-/* ===== FIN AJOUT ===== */
 
-/* ===== AJOUT : Choix du thème ===== */
 .bloc-theme {
   background: rgba(213, 236, 236, 0.55);
   border-radius: 16px;
@@ -860,9 +834,7 @@ h2 {
   border-color: white;
   box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
-/* ===== FIN AJOUT ===== */
 
-/* ===== AJOUT : MODE CLAIR (theme-clair) ===== */
 body.theme-clair {
   background-color: #f0f0f0;
 }
@@ -936,5 +908,112 @@ body.theme-clair .titre-recette-notes {
 
 body.theme-clair #texteNotes {
   border: 1px solid #ccc;
+}
+
+.ligne-vignettes-photos {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.vignette-photo-appareil {
+  position: relative;
+  width: 54px;
+  height: 54px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 3px solid transparent;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+  transition: border-color 0.2s;
+}
+
+.vignette-photo-appareil.vignette-active {
+  border-color: #52ab98;
+}
+
+.vignette-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+}
+
+.vignette-coche {
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  font-size: 13px;
+  background: white;
+  border-radius: 50%;
+  line-height: 1;
+  padding: 1px;
+}
+
+.btn-supprimer-vignette {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 20px;
+  height: 20px;
+  background: #e76f51;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+.btn-supprimer-vignette:hover {
+  background-color: #c0392b;
+}
+
+/* ===== AJOUT : Bannière de mise à jour (remplace le confirm()) ===== */
+.bandeau-maj {
+  position: fixed;
+  bottom: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 440px;
+  background: rgba(43, 103, 119, 0.97);
+  color: white;
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  z-index: 999;
+  transition: bottom 0.4s ease;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.bandeau-maj.visible {
+  bottom: 20px;
+}
+
+.bandeau-maj button {
+  background: rgba(82, 171, 152, 0.95);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-weight: bold;
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 13px;
+}
+
+.bandeau-maj button:hover {
+  background-color: #52ab98;
 }
 /* ===== FIN AJOUT ===== */
