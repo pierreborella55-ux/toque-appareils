@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notes - Toque & Appareils</title>
+<link rel="stylesheet" href="style.css">
+
+<!-- AJOUT PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2d4a3e">
+<!-- FIN AJOUT -->
+
+</head>
+<body>
+
+<div class="conteneur">
+  <img src="fond_crop.png" class="fond-behind" alt="Ambiance cuisine">
+
+  <div class="contenu">
+
+    <div class="entete-page">
+      <a href="recettes.html" class="btn-retour-fleche">← Retour</a>
+      <h1>📝 Notes</h1>
+    </div>
+
+    <div id="titreRecetteNotes" class="titre-recette-notes"></div>
+
+    <textarea id="texteNotes" placeholder="Ingrédients modifiés, grammages, remarques personnelles..."></textarea>
+
+    <div class="ligne-boutons-notes">
+      <button id="btnEnregistrerNotes">💾 Enregistrer</button>
+      <button id="btnEffacerNotes">🗑️ Effacer</button>
+    </div>
+    <p id="messageNotes"></p>
+
+  </div>
+</div>
+
+<script src="storage.js"></script>
+<script src="notes.js"></script>
+
+<!-- AJOUT PWA : enregistrement du Service Worker -->
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js').then((reg) => {
+    reg.update();
+
+    reg.onupdatefound = () => {
+      const newWorker = reg.installing;
+      newWorker.onstatechange = () => {
+        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+          if (confirm("Une nouvelle version est disponible. Mettre à jour maintenant ?")) {
+            newWorker.postMessage("SKIP_WAITING");
+            window.location.reload();
+          }
+        }
+      };
+    };
+  });
+}
+</script>
+<!-- FIN AJOUT -->
+
+</body>
+</html>

@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mes recettes - Toque & Appareils</title>
 <link rel="stylesheet" href="style.css">
 
@@ -21,15 +22,17 @@
 
     <div class="bloc-filtre">
       <input type="text" id="rechercheInterne" placeholder="Rechercher dans mes recettes...">
-      <select id="filtreAppareil">
-        <option value="Tous">Tous les appareils</option>
-        <option value="🥘 Monsieur Cuisine">🥘 Monsieur Cuisine</option>
-        <option value="⏲️ Cookéo">⏲️ Cookéo</option>
-        <option value="🌀 Air Fryer">🌀 Air Fryer</option>
-        <option value="🔥 Four">🔥 Four</option>
-        <option value="🍲 Casserole">🍲 Casserole</option>
-      </select>
+      <select id="filtreAppareil"></select>
     </div>
+
+    <!-- AJOUT : Export / Import -->
+    <div class="bloc-export-import">
+      <button id="btnExporter" class="btn-export">📤 Exporter mes recettes</button>
+      <label for="inputImporter" class="btn-import">📥 Importer des recettes</label>
+      <input type="file" id="inputImporter" accept=".json" style="display:none;">
+      <p id="messageImportExport"></p>
+    </div>
+    <!-- FIN AJOUT -->
 
     <div id="listeRecettes"></div>
 
@@ -44,6 +47,8 @@
 <script>
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('service-worker.js').then((reg) => {
+    reg.update();
+
     reg.onupdatefound = () => {
       const newWorker = reg.installing;
       newWorker.onstatechange = () => {

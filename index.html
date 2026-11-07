@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Toque & Appareils</title>
 <link rel="stylesheet" href="style.css">
 
@@ -16,36 +17,21 @@
 <div class="conteneur">
   <img src="fond_crop.png" class="fond-behind" alt="Ambiance cuisine">
 
+  <a href="parametres.html" class="btn-roue-parametres" title="Paramètres">⚙️</a>
+
   <div class="contenu">
     <h1>🍳 Toque & Appareils</h1>
 
     <div class="bloc-recherche">
       <input type="text" id="recherche" placeholder="Tapez un aliment ou un mot-clé...">
 
-      <div class="bandeau-clic">
-        <img src="bandeau_crop.png" class="bandeau-img" alt="Appareils de cuisine">
-        <button class="zone-clic zone-0" data-mot="recette air fryer" data-nom="🌀 Air Fryer"></button>
-        <button class="zone-clic zone-1" data-mot="recette Cookeo" data-nom="⏲️ Cookéo"></button>
-        <button class="zone-clic zone-2" data-mot="recette Monsieur Cuisine" data-nom="🥘 Monsieur Cuisine"></button>
-        <button class="zone-clic zone-3" data-mot="recette four" data-nom="🔥 Four"></button>
-        <button class="zone-clic zone-4" data-mot="recette casserole" data-nom="🍲 Casserole"></button>
-      </div>
-
-      <div class="noms-appareils">
-        <span>Air Fryer</span><span>Cookéo</span><span>M. Cuisine</span><span>Four</span><span>Casserole</span>
-      </div>
+      <div id="zoneIcones" class="zone-icones"></div>
     </div>
 
     <div class="bloc-sauvegarde">
       <h2>💾 Sauvegarder une recette trouvée</h2>
       <form id="formSauvegarde">
-        <select id="appareilSauvegarde">
-          <option value="🥘 Monsieur Cuisine">🥘 Monsieur Cuisine</option>
-          <option value="⏲️ Cookéo">⏲️ Cookéo</option>
-          <option value="🌀 Air Fryer">🌀 Air Fryer</option>
-          <option value="🔥 Four">🔥 Four</option>
-          <option value="🍲 Casserole">🍲 Casserole</option>
-        </select>
+        <select id="appareilSauvegarde"></select>
         <input type="text" id="titreRecette" placeholder="Titre de la recette">
         <input type="text" id="urlRecette" placeholder="Lien (URL) de la recette">
         <button type="submit">Enregistrer ⭐</button>
@@ -54,6 +40,7 @@
     </div>
 
     <a href="recettes.html" class="lien-mes-recettes">⭐ Voir Mes recettes</a>
+
   </div>
 </div>
 
@@ -64,6 +51,8 @@
 <script>
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('service-worker.js').then((reg) => {
+    reg.update();
+
     reg.onupdatefound = () => {
       const newWorker = reg.installing;
       newWorker.onstatechange = () => {
