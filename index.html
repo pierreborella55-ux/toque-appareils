@@ -46,12 +46,10 @@
       </form>
     </div>
 
-    <!-- ===== MODIFIÉ : ajout du badge sur le lien Mes recettes ===== -->
     <div class="conteneur-lien-recettes">
       <a href="recettes.html" class="lien-mes-recettes">⭐ Voir Mes recettes</a>
       <span id="badgeRecettes" class="badge-recettes"></span>
     </div>
-    <!-- ===== FIN MODIFIÉ ===== -->
 
   </div>
 </div>
@@ -62,28 +60,44 @@
 <!-- AJOUT PWA : enregistrement du Service Worker -->
 <script>
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('service-worker.js').then((reg) => {
+  // ===== MODIFIÉ : updateViaCache "none" pour forcer le navigateur
+  //      (notamment Android) à toujours vérifier une version fraîche
+  //      du fichier service-worker.js, et ne plus se fier à une copie
+  //      mise en cache par le navigateur lui-même =====
+  navigator.serviceWorker.register('service-worker.js', { updateViaCache: 'none' }).then((reg) => {
     reg.update();
+
+    // ===== AJOUT : si une mise à jour était déjà prête mais pas encore
+    //      activée (par ex. app fermée avant d'avoir cliqué sur le bouton
+    //      la fois précédente), on affiche quand même la bannière =====
+    if (reg.waiting) {
+      afficherBandeauMiseAJour(reg.waiting);
+    }
+    // ===== FIN AJOUT =====
 
     reg.onupdatefound = () => {
       const newWorker = reg.installing;
       newWorker.onstatechange = () => {
         if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-          // ===== MODIFIÉ : affiche la bannière au lieu d'un confirm() =====
-          const bandeau = document.getElementById('bandeauMiseAJour');
-          const btn = document.getElementById('btnMettreAJour');
-          if (bandeau && btn) {
-            bandeau.classList.add('visible');
-            btn.addEventListener('click', () => {
-              newWorker.postMessage("SKIP_WAITING");
-              window.location.reload();
-            });
-          }
-          // ===== FIN MODIFIÉ =====
+          afficherBandeauMiseAJour(newWorker);
         }
       };
     };
   });
+
+  // ===== AJOUT : fonction commune pour afficher la bannière =====
+  function afficherBandeauMiseAJour(worker) {
+    const bandeau = document.getElementById('bandeauMiseAJour');
+    const btn = document.getElementById('btnMettreAJour');
+    if (bandeau && btn) {
+      bandeau.classList.add('visible');
+      btn.addEventListener('click', () => {
+        worker.postMessage("SKIP_WAITING");
+        window.location.reload();
+      });
+    }
+  }
+  // ===== FIN AJOUT =====
 }
 </script>
 <!-- FIN AJOUT -->
