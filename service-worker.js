@@ -1,9 +1,13 @@
-const CACHE_NAME = "toque-appareils-v25";
+const CACHE_NAME = "toque-appareils-v26";
 
 const FILES_TO_CACHE = [
   "./index.html",
   "./recettes.html",
   "./parametres.html",
+  "./parametres-appareils.html",
+  "./parametres-courses.html",
+  "./parametres-affichage.html",
+  "./apropos.html",
   "./notes.html",
   "./recettes.js",
   "./script.js",

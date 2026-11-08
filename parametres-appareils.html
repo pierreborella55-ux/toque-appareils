@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Appareils - Toque & Appareils</title>
+<link rel="stylesheet" href="style.css">
+
+<!-- AJOUT PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2d4a3e">
+<!-- FIN AJOUT -->
+
+</head>
+<body>
+
+<!-- ===== AJOUT : Bannière de mise à jour ===== -->
+<div id="bandeauMiseAJour" class="bandeau-maj">
+  <span>🔄 Nouvelle version disponible</span>
+  <button id="btnMettreAJour">Mettre à jour</button>
+</div>
+<!-- ===== FIN AJOUT ===== -->
+
+<div class="conteneur">
+  <img src="fond_crop.png" class="fond-behind" alt="Ambiance cuisine">
+
+  <div class="contenu">
+
+    <div class="entete-page">
+      <a href="parametres.html" class="btn-retour-fleche">← Retour</a>
+      <h1>🔧 Appareils</h1>
+    </div>
+
+    <div id="listeAppareils"></div>
+
+    <div class="bloc-ajout-appareil">
+      <h2>➕ Ajouter un appareil</h2>
+      <input type="text" id="nouvelAppareilNom" placeholder="Nom de l'appareil">
+
+      <div class="ligne-boutons-photo">
+        <label class="btn-photo-appareil">
+          📷 Prendre une photo
+          <input type="file" accept="image/*" capture="environment" id="nouvelAppareilPhotoCamera" style="display:none;">
+        </label>
+        <label class="btn-photo-appareil">
+          🖼️ Galerie
+          <input type="file" accept="image/*" id="nouvelAppareilPhotoGalerie" style="display:none;">
+        </label>
+      </div>
+      <div id="previewNouvelAppareil"></div>
+
+      <button id="btnAjouterAppareil">Ajouter l'appareil</button>
+      <p id="messageAjoutAppareil"></p>
+    </div>
+
+  </div>
+</div>
+
+<script src="storage.js"></script>
+<script src="parametres.js"></script>
+
+<!-- AJOUT PWA : enregistrement du Service Worker -->
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js', { updateViaCache: 'none' }).then((reg) => {
+    reg.update();
+
+    if (reg.waiting) {
+      afficherBandeauMiseAJour(reg.waiting);
+    }
+
+    reg.onupdatefound = () => {
+      const newWorker = reg.installing;
+      newWorker.onstatechange = () => {
+        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+          afficherBandeauMiseAJour(newWorker);
+        }
+      };
+    };
+  });
+
+  function afficherBandeauMiseAJour(worker) {
+    const bandeau = document.getElementById('bandeauMiseAJour');
+    const btn = document.getElementById('btnMettreAJour');
+    if (bandeau && btn) {
+      bandeau.classList.add('visible');
+      btn.addEventListener('click', () => {
+        worker.postMessage("SKIP_WAITING");
+        window.location.reload();
+      });
+    }
+  }
+}
+</script>
+<!-- FIN AJOUT -->
+
+</body>
+</html>

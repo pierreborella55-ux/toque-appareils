@@ -31,79 +31,29 @@
       <h1>⚙️ Paramètres</h1>
     </div>
 
-    <div class="barre-onglets">
-      <button class="btn-onglet actif" data-onglet="onglet-appareils">🔧 Appareils</button>
-      <button class="btn-onglet" data-onglet="onglet-courses">🛒 Courses</button>
-      <button class="btn-onglet" data-onglet="onglet-affichage">🌓 Affichage</button>
+    <!-- ===== NOUVEAU : menu principal des paramètres ===== -->
+    <div class="menu-parametres">
+      <a href="parametres-appareils.html" class="item-menu-parametres">
+        🔧 Appareils
+        <span class="fleche">→</span>
+      </a>
+      <a href="parametres-courses.html" class="item-menu-parametres">
+        🛒 Liste de courses
+        <span class="fleche">→</span>
+      </a>
+      <a href="parametres-affichage.html" class="item-menu-parametres">
+        🌓 Affichage
+        <span class="fleche">→</span>
+      </a>
+      <a href="apropos.html" class="item-menu-parametres">
+        ℹ️ À propos
+        <span class="fleche">→</span>
+      </a>
     </div>
-
-    <!-- ===== ONGLET APPAREILS ===== -->
-    <div id="onglet-appareils" class="contenu-onglet actif">
-
-      <div id="listeAppareils"></div>
-
-      <div class="bloc-ajout-appareil">
-        <h2>➕ Ajouter un appareil</h2>
-        <input type="text" id="nouvelAppareilNom" placeholder="Nom de l'appareil">
-
-        <div class="ligne-boutons-photo">
-          <label class="btn-photo-appareil">
-            📷 Prendre une photo
-            <input type="file" accept="image/*" capture="environment" id="nouvelAppareilPhotoCamera" style="display:none;">
-          </label>
-          <label class="btn-photo-appareil">
-            🖼️ Galerie
-            <input type="file" accept="image/*" id="nouvelAppareilPhotoGalerie" style="display:none;">
-          </label>
-        </div>
-        <div id="previewNouvelAppareil"></div>
-
-        <button id="btnAjouterAppareil">Ajouter l'appareil</button>
-        <p id="messageAjoutAppareil"></p>
-      </div>
-
-    </div>
-
-    <!-- ===== ONGLET LISTE DE COURSES ===== -->
-    <div id="onglet-courses" class="contenu-onglet">
-
-      <div class="bloc-ajout-course">
-        <input type="text" id="nouvelArticleCourse" placeholder="Ajouter un article...">
-        <button id="btnAjouterArticleCourse">➕ Ajouter</button>
-      </div>
-
-      <div id="listeCourses"></div>
-
-      <div class="ligne-boutons-courses">
-        <button id="btnNettoyerCourses">🧹 Nettoyer les cochés</button>
-        <button id="btnViderCourses">🗑️ Tout vider</button>
-      </div>
-
-    </div>
-
-    <!-- ===== ONGLET AFFICHAGE (thème) ===== -->
-    <div id="onglet-affichage" class="contenu-onglet">
-
-      <div class="bloc-theme">
-        <h2>🌓 Apparence de l'application</h2>
-
-        <div class="choix-theme">
-          <button id="btnThemeSombre" class="btn-theme">
-            🌙 Mode sombre
-          </button>
-          <button id="btnThemeClair" class="btn-theme">
-            ☀️ Mode clair
-          </button>
-        </div>
-      </div>
-
-    </div>
+    <!-- ===== FIN NOUVEAU ===== -->
 
   </div>
 </div>
-
-<script src="storage.js"></script>
-<script src="parametres.js"></script>
 
 <!-- AJOUT PWA : enregistrement du Service Worker -->
 <script>
