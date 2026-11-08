@@ -1,4 +1,4 @@
-const CACHE_NAME = "toque-appareils-v23";
+const CACHE_NAME = "toque-appareils-v24";
 
 const FILES_TO_CACHE = [
   "./index.html",
