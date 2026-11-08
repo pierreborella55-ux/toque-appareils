@@ -33,15 +33,15 @@
 
     <div class="bloc-apropos">
       <h2>🍳 Toque & Appareils</h2>
-      <p class="version-app">Version 26</p>
+      <p class="version-app">Version 27</p>
 
       <h2 style="margin-top:20px;">📋 Dernières nouveautés</h2>
       <ul class="liste-nouveautes">
+        <li>Correction du bug des boutons Mode sombre / Mode clair (page Affichage)</li>
+        <li>Amélioration de la détection des mises à jour (vérification automatique au retour sur l'app)</li>
         <li>Réorganisation des Paramètres en pages séparées (Appareils, Courses, Affichage, À propos)</li>
-        <li>Nouvelle page "À propos" avec le journal des nouveautés</li>
         <li>Correction de la mise à jour automatique sur Android</li>
         <li>Galerie de 3 photos personnalisées par appareil</li>
-        <li>Badge du nombre de recettes sauvegardées</li>
       </ul>
     </div>
 
@@ -81,6 +81,16 @@ if ('serviceWorker' in navigator) {
       });
     }
   }
+
+  // ===== AJOUT : revérifie une mise à jour chaque fois que l'app redevient visible =====
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      navigator.serviceWorker.getRegistration().then(reg => {
+        if (reg) reg.update();
+      });
+    }
+  });
+  // ===== FIN AJOUT =====
 }
 </script>
 <!-- FIN AJOUT -->

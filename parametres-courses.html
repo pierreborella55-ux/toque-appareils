@@ -80,6 +80,16 @@ if ('serviceWorker' in navigator) {
       });
     }
   }
+
+  // ===== AJOUT : revérifie une mise à jour chaque fois que l'app redevient visible =====
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      navigator.serviceWorker.getRegistration().then(reg => {
+        if (reg) reg.update();
+      });
+    }
+  });
+  // ===== FIN AJOUT =====
 }
 </script>
 <!-- FIN AJOUT -->

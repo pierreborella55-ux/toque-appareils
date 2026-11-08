@@ -60,20 +60,12 @@
 <!-- AJOUT PWA : enregistrement du Service Worker -->
 <script>
 if ('serviceWorker' in navigator) {
-  // ===== MODIFIÉ : updateViaCache "none" pour forcer le navigateur
-  //      (notamment Android) à toujours vérifier une version fraîche
-  //      du fichier service-worker.js, et ne plus se fier à une copie
-  //      mise en cache par le navigateur lui-même =====
   navigator.serviceWorker.register('service-worker.js', { updateViaCache: 'none' }).then((reg) => {
     reg.update();
 
-    // ===== AJOUT : si une mise à jour était déjà prête mais pas encore
-    //      activée (par ex. app fermée avant d'avoir cliqué sur le bouton
-    //      la fois précédente), on affiche quand même la bannière =====
     if (reg.waiting) {
       afficherBandeauMiseAJour(reg.waiting);
     }
-    // ===== FIN AJOUT =====
 
     reg.onupdatefound = () => {
       const newWorker = reg.installing;
@@ -85,7 +77,6 @@ if ('serviceWorker' in navigator) {
     };
   });
 
-  // ===== AJOUT : fonction commune pour afficher la bannière =====
   function afficherBandeauMiseAJour(worker) {
     const bandeau = document.getElementById('bandeauMiseAJour');
     const btn = document.getElementById('btnMettreAJour');
@@ -97,6 +88,15 @@ if ('serviceWorker' in navigator) {
       });
     }
   }
+
+  // ===== AJOUT : revérifie une mise à jour chaque fois que l'app redevient visible =====
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      navigator.serviceWorker.getRegistration().then(reg => {
+        if (reg) reg.update();
+      });
+    }
+  });
   // ===== FIN AJOUT =====
 }
 </script>

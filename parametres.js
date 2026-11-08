@@ -56,6 +56,7 @@ function getIconeParDefaut(id) {
 // ===== Affichage de la liste des appareils =====
 function afficherListeAppareils() {
   const conteneur = document.getElementById("listeAppareils");
+  if (!conteneur) return; // ===== AJOUT : sécurité si la page n'a pas cet élément =====
   const appareils = getAppareils();
   conteneur.innerHTML = "";
 
@@ -69,7 +70,6 @@ function afficherListeAppareils() {
 
     const estPersonnalise = appareil.id.startsWith("custom_");
 
-    // ===== AJOUT : galerie de vignettes (jusqu'à 3 photos personnalisées) =====
     let vignettesHTML = "";
     if (appareil.photos && appareil.photos.length > 0) {
       vignettesHTML = '<div class="ligne-vignettes-photos">';
@@ -85,7 +85,6 @@ function afficherListeAppareils() {
       });
       vignettesHTML += '</div>';
     }
-    // ===== FIN AJOUT =====
 
     carte.innerHTML = `
       <div class="ligne-appareil">
@@ -119,7 +118,6 @@ function afficherListeAppareils() {
       mettreAJourAppareil(appareil.id, { actif: e.target.checked });
     });
 
-    // ===== MODIFIÉ : ajoute la photo à la galerie (max 3) au lieu de l'écraser directement =====
     carte.querySelector(".input-photo-camera").addEventListener("change", (e) => {
       const fichier = e.target.files[0];
       if (!fichier) return;
@@ -137,9 +135,7 @@ function afficherListeAppareils() {
         afficherListeAppareils();
       });
     });
-    // ===== FIN MODIFIÉ =====
 
-    // ===== AJOUT : clic sur une vignette = la rend active =====
     carte.querySelectorAll(".vignette-photo-appareil").forEach(vignette => {
       vignette.addEventListener("click", (e) => {
         if (e.target.closest(".btn-supprimer-vignette")) return;
@@ -161,9 +157,7 @@ function afficherListeAppareils() {
         }
       });
     });
-    // ===== FIN AJOUT =====
 
-    // ===== MODIFIÉ : réinitialiser vide aussi la galerie de photos =====
     const btnReset = carte.querySelector(".btn-reset-icone");
     if (btnReset) {
       btnReset.addEventListener("click", () => {
@@ -172,7 +166,6 @@ function afficherListeAppareils() {
         afficherListeAppareils();
       });
     }
-    // ===== FIN MODIFIÉ =====
 
     const btnSupprimer = carte.querySelector(".btn-supprimer-appareil");
     if (btnSupprimer) {
@@ -249,6 +242,7 @@ if (btnAjouterAppareil) {
 // ===== Liste de courses =====
 function afficherListeCourses() {
   const conteneur = document.getElementById("listeCourses");
+  if (!conteneur) return; // ===== AJOUT : sécurité si la page n'a pas cet élément =====
   const liste = getListeCourses();
   conteneur.innerHTML = "";
 
@@ -329,10 +323,11 @@ if (btnViderCourses) {
 
 // ===== Choix du thème =====
 function afficherChoixTheme() {
-  const theme = getTheme();
   const btnSombre = document.getElementById("btnThemeSombre");
   const btnClair = document.getElementById("btnThemeClair");
+  if (!btnSombre || !btnClair) return; // ===== AJOUT : sécurité si la page n'a pas ces éléments =====
 
+  const theme = getTheme();
   btnSombre.classList.toggle("theme-actif", theme === "sombre");
   btnClair.classList.toggle("theme-actif", theme === "clair");
 }
